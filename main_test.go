@@ -11,7 +11,7 @@ func Test_tp(t *testing.T) {
 		tp float64
 	}{
 		{210.0, 595.28},
-		{297.0, 42 * 841.89},
+		{297.0, 841.89},
 	}
 
 	for _, tc := range testcases {
