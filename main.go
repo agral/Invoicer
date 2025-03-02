@@ -6,11 +6,6 @@ import (
 	"github.com/signintech/gopdf"
 )
 
-func tp(millimeters float64) float64 {
-	// 1 inch == 72 typographic points; 1 inch == 25.4 millimeters.
-	return millimeters / 25.4 * 72
-}
-
 func main() {
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{
