@@ -15,3 +15,11 @@ func loadFonts(pdf *gopdf.GoPdf) bool {
 
 	return true
 }
+
+func writeMultiLineText(pdf *gopdf.GoPdf, lines []string, x float64, br float64) {
+	for _, line := range lines {
+		pdf.SetX(x)
+		pdf.Cell(nil, line)
+		pdf.Br(br)
+	}
+}
