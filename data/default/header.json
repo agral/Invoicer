@@ -4,5 +4,10 @@
         "Address: 1234 Pine St",
         "San Francisco, CA 94109-9991",
         "I.R.S. EIN 12-3456789"
+    ],
+    "right": [
+        "Place of issue: %ISSUE_PLACE%",
+        "Date of sale: %SALE_DATE%",
+        "Date of issue: %ISSUE_DATE%"
     ]
 }

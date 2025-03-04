@@ -12,7 +12,8 @@ import (
 const BR_SIZE float64 = 13.5
 
 type Header struct {
-	Left []string `json:"left"`
+	Left  []string `json:"left"`
+	Right []string `json:"right"`
 }
 
 func main() {
@@ -40,5 +41,7 @@ func main() {
 
 	pdf.SetY(tp(20))
 	writeMultiLineText(&pdf, header.Left, tp(20), BR_SIZE)
+	pdf.SetY(tp(20))
+	writeMultiLineText(&pdf, header.Right, tp(20+112), BR_SIZE)
 	pdf.WritePdf("out.pdf")
 }
