@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -8,6 +10,10 @@ import (
 )
 
 const BR_SIZE float64 = 13.5
+
+type Header struct {
+	Left []string `json:"left"`
+}
 
 func main() {
 	pdf := gopdf.GoPdf{}
@@ -26,5 +32,16 @@ func main() {
 	}
 	pdf.SetY(tp(20))
 	writeMultiLineText(&pdf, []string{"line1", "line2", "line3", "line4", "line5"}, tp(20), BR_SIZE)
+	b, err := os.ReadFile("data/default/header.json")
+	if err != nil {
+		fmt.Println("Failed to read data/default/header.json.")
+		fmt.Printf("Error: %s\n", err)
+	}
+	var header Header
+	json.NewDecoder(bytes.NewBuffer(b)).Decode(&header)
+	for _, h := range header.Left {
+		fmt.Println(h)
+	}
+	fmt.Println(header)
 	pdf.WritePdf("out.pdf")
 }
