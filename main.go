@@ -26,12 +26,6 @@ func main() {
 		os.Exit(1)
 	}
 	err := pdf.SetFont("NotoSans", "", 10)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	pdf.SetY(tp(20))
-	writeMultiLineText(&pdf, []string{"line1", "line2", "line3", "line4", "line5"}, tp(20), BR_SIZE)
 	b, err := os.ReadFile("data/default/header.json")
 	if err != nil {
 		fmt.Println("Failed to read data/default/header.json.")
@@ -39,9 +33,12 @@ func main() {
 	}
 	var header Header
 	json.NewDecoder(bytes.NewBuffer(b)).Decode(&header)
-	for _, h := range header.Left {
-		fmt.Println(h)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
 	}
-	fmt.Println(header)
+
+	pdf.SetY(tp(20))
+	writeMultiLineText(&pdf, header.Left, tp(20), BR_SIZE)
 	pdf.WritePdf("out.pdf")
 }
