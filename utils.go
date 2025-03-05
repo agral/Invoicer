@@ -23,3 +23,15 @@ func writeMultiLineText(pdf *gopdf.GoPdf, lines []string, x float64, br float64)
 		pdf.Br(br)
 	}
 }
+
+func WriteRichText(pdf *gopdf.GoPdf, richtext RichText) bool {
+	err := pdf.SetFont(richtext.Font.Name, "", richtext.Font.Size)
+	if err != nil {
+		fmt.Printf("Error while calling SetFont(name=%q, size=%f) in WriteRichText", richtext.Font.Name, richtext.Font.Size)
+		fmt.Printf("Error: %s\n", err)
+		return false
+	}
+	pdf.SetY(tp(richtext.Position.Y))
+	writeMultiLineText(pdf, richtext.Text, tp(richtext.Position.X), richtext.Font.BrSize)
+	return true
+}
