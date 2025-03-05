@@ -2,7 +2,7 @@
     "left": {
         "font": {
             "br_size": 13.5,
-            "name": "Noto Sans",
+            "name": "NotoSans",
             "size": 10
         },
         "pos": {
@@ -19,7 +19,7 @@
     "right": {
         "font": {
             "br_size": 13.5,
-            "name": "Noto Sans",
+            "name": "NotoSans",
             "size": 10
         },
         "pos": {

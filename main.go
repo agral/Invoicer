@@ -30,6 +30,18 @@ type Header struct {
 	Right RichText `json:"right"`
 }
 
+func WriteRichText(pdf *gopdf.GoPdf, richtext RichText) bool {
+	err := pdf.SetFont(richtext.Font.Name, "", richtext.Font.Size)
+	if err != nil {
+		fmt.Printf("Error while calling SetFont(name=%q, size=%f) in WriteRichText", richtext.Font.Name, richtext.Font.Size)
+		fmt.Printf("Error: %s\n", err)
+		return false
+	}
+	pdf.SetY(tp(richtext.Position.Y))
+	writeMultiLineText(pdf, richtext.Text, tp(richtext.Position.X), richtext.Font.BrSize)
+	return true
+}
+
 func main() {
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{
@@ -53,9 +65,7 @@ func main() {
 		return
 	}
 
-	pdf.SetY(tp(20))
-	writeMultiLineText(&pdf, header.Left.Text, tp(20), BR_SIZE)
-	pdf.SetY(tp(20))
-	writeMultiLineText(&pdf, header.Right.Text, tp(20+112), BR_SIZE)
+	WriteRichText(&pdf, header.Left)
+	WriteRichText(&pdf, header.Right)
 	pdf.WritePdf("out.pdf")
 }
