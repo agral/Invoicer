@@ -1,13 +1,35 @@
 {
-    "left": [
-        "Boring Company Name",
-        "Address: 1234 Pine St",
-        "San Francisco, CA 94109-9991",
-        "I.R.S. EIN 12-3456789"
-    ],
-    "right": [
-        "Place of issue: %ISSUE_PLACE%",
-        "Date of sale: %SALE_DATE%",
-        "Date of issue: %ISSUE_DATE%"
-    ]
+    "left": {
+        "font": {
+            "br_size": 13.5,
+            "name": "Noto Sans",
+            "size": 10
+        },
+        "pos": {
+            "x": 20,
+            "y": 20
+        },
+        "text": [
+            "Boring Company Name",
+            "Address: 1234 Pine St",
+            "San Francisco, CA 94109-9991",
+            "I.R.S. EIN 12-3456789"
+        ]
+    },
+    "right": {
+        "font": {
+            "br_size": 13.5,
+            "name": "Noto Sans",
+            "size": 10
+        },
+        "pos": {
+            "x": 132,
+            "y": 20
+        },
+        "text": [
+            "Place of issue: %ISSUE_PLACE%",
+            "Date of sale: %SALE_DATE%",
+            "Date of issue: %ISSUE_DATE%"
+        ]
+    }
 }

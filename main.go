@@ -11,9 +11,23 @@ import (
 
 const BR_SIZE float64 = 13.5
 
+type Font struct {
+	BrSize float64 `json:"br_size"`
+	Name   string  `json:"name"`
+	Size   float64 `json:"size"`
+}
+type Position struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+}
+type RichText struct {
+	Font     Font     `json:"font"`
+	Position Position `json:"pos"`
+	Text     []string `json:"text"`
+}
 type Header struct {
-	Left  []string `json:"left"`
-	Right []string `json:"right"`
+	Left  RichText `json:"left"`
+	Right RichText `json:"right"`
 }
 
 func main() {
@@ -40,8 +54,8 @@ func main() {
 	}
 
 	pdf.SetY(tp(20))
-	writeMultiLineText(&pdf, header.Left, tp(20), BR_SIZE)
+	writeMultiLineText(&pdf, header.Left.Text, tp(20), BR_SIZE)
 	pdf.SetY(tp(20))
-	writeMultiLineText(&pdf, header.Right, tp(20+112), BR_SIZE)
+	writeMultiLineText(&pdf, header.Right.Text, tp(20+112), BR_SIZE)
 	pdf.WritePdf("out.pdf")
 }
