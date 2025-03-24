@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/signintech/gopdf"
@@ -12,6 +13,17 @@ import (
 const BR_SIZE float64 = 13.5
 
 func main() {
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, err := fmt.Fprintf(w, "Invoicer's web interface")
+		if err != nil {
+			fmt.Println(err)
+		}
+	})
+
+	fmt.Println("Starting the web interface on http://localhost:31337 ...")
+	_ = http.ListenAndServe(":31337", nil)
+
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{
 		PageSize: gopdf.Rect{W: tp(210), H: tp(297)}, // A4, portrait
