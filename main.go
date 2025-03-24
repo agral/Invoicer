@@ -12,14 +12,23 @@ import (
 
 const BR_SIZE float64 = 13.5
 
+func Home(w http.ResponseWriter, r *http.Request) {
+	_, err := fmt.Fprintf(w, "Invoicer's web interface")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+func Status(w http.ResponseWriter, r *http.Request) {
+	_, err := fmt.Fprintf(w, "Status page")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func main() {
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "Invoicer's web interface")
-		if err != nil {
-			fmt.Println(err)
-		}
-	})
+	http.HandleFunc("/", Home)
+	http.HandleFunc("/status", Status)
 
 	fmt.Println("Starting the web interface on http://localhost:31337 ...")
 	_ = http.ListenAndServe(":31337", nil)
