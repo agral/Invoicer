@@ -11,6 +11,7 @@ import (
 )
 
 const BR_SIZE float64 = 13.5
+const PORT_NUMBER string = ":31337"
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	_, err := fmt.Fprintf(w, "Invoicer's web interface")
@@ -30,8 +31,8 @@ func main() {
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/status", Status)
 
-	fmt.Println("Starting the web interface on http://localhost:31337 ...")
-	_ = http.ListenAndServe(":31337", nil)
+	fmt.Printf("Starting the web interface on http://localhost%s ...\n", PORT_NUMBER)
+	_ = http.ListenAndServe(PORT_NUMBER, nil)
 
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{
