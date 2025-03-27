@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"text/template"
 
 	"github.com/signintech/gopdf"
 )
@@ -13,17 +14,21 @@ import (
 const BR_SIZE float64 = 13.5
 const PORT_NUMBER string = ":31337"
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintf(w, "Invoicer's web interface")
+func renderTemplate(w http.ResponseWriter, tmpl string) {
+	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl)
+	err := parsedTemplate.Execute(w, nil)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error parsing template %q: %s\n", tmpl, err)
+		return
 	}
 }
+
+func Home(w http.ResponseWriter, r *http.Request) {
+	renderTemplate(w, "home.tmpl")
+}
+
 func Status(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintf(w, "Status page")
-	if err != nil {
-		fmt.Println(err)
-	}
+	renderTemplate(w, "status.tmpl")
 }
 
 func main() {
