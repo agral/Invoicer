@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"Invoicer/pkg/handlers"
+
 	"github.com/signintech/gopdf"
 )
 
@@ -14,9 +16,8 @@ const BR_SIZE float64 = 13.5
 const PORT_NUMBER string = ":31337"
 
 func main() {
-
-	http.HandleFunc("/", Home)
-	http.HandleFunc("/status", Status)
+	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/status", handlers.Status)
 
 	fmt.Printf("Starting the web interface on http://localhost%s ...\n", PORT_NUMBER)
 	_ = http.ListenAndServe(PORT_NUMBER, nil)
