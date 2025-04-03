@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
+	"Invoicer/pkg/config"
 	"Invoicer/pkg/handlers"
+	"Invoicer/pkg/render"
 
 	"github.com/signintech/gopdf"
 )
@@ -16,6 +19,13 @@ const BR_SIZE float64 = 13.5
 const PORT_NUMBER string = ":31337"
 
 func main() {
+	var app config.AppConfig
+	tc, err := render.CreateTemplateCache()
+	if err != nil {
+		log.Fatal("Can not create the template cache")
+	}
+	app.TemplateCache = tc
+	render.SetAppConfig(&app)
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/status", handlers.Status)
 
@@ -31,7 +41,7 @@ func main() {
 		fmt.Printf("Failed to load fonts. Exiting.")
 		os.Exit(1)
 	}
-	err := pdf.SetFont("NotoSans", "", 10)
+	err = pdf.SetFont("NotoSans", "", 10)
 	b, err := os.ReadFile("data/default/header.json")
 	if err != nil {
 		fmt.Println("Failed to read data/default/header.json.")

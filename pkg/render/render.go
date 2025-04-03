@@ -1,6 +1,7 @@
 package render
 
 import (
+	"Invoicer/pkg/config"
 	"bytes"
 	"log"
 	"net/http"
@@ -8,21 +9,25 @@ import (
 	"text/template"
 )
 
+var appConfig *config.AppConfig
+
+func SetAppConfig(cfg *config.AppConfig) {
+	appConfig = cfg
+}
+
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
-	// Create a template cache:
-	cache, err := createTemplateCache()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Use the template cache from the app config:
+	cache := appConfig.TemplateCache
 
 	// Look up the requested template in the cache
 	template, isOk := cache[tmpl]
 	if !isOk {
-		log.Fatal(err)
+		log.Printf("Template %s missing in cache", tmpl)
+		log.Fatal("Aborting.")
 	}
 
 	buf := new(bytes.Buffer)
-	err = template.Execute(buf, nil)
+	err := template.Execute(buf, nil)
 	if err != nil {
 		log.Println(err)
 	}
@@ -34,7 +39,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	}
 }
 
-func createTemplateCache() (map[string]*template.Template, error) {
+func CreateTemplateCache() (map[string]*template.Template, error) {
 	cache := make(map[string]*template.Template)
 
 	// Parse all the files from `./templates/` ending with `.page.tmpl`:
