@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"Invoicer/pkg/config"
+	"Invoicer/pkg/models"
 	"Invoicer/pkg/render"
 	"net/http"
 )
@@ -25,9 +26,16 @@ func NewHandlers(repo *Repository) {
 }
 
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl")
+	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (repo *Repository) Status(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "status.page.tmpl")
+	// perform some business logic
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Test"
+
+	// send the data to the template
+	render.RenderTemplate(w, "status.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }

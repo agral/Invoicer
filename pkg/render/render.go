@@ -2,6 +2,7 @@ package render
 
 import (
 	"Invoicer/pkg/config"
+	"Invoicer/pkg/models"
 	"bytes"
 	"log"
 	"net/http"
@@ -15,7 +16,11 @@ func SetAppConfig(cfg *config.AppConfig) {
 	appConfig = cfg
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var cache map[string]*template.Template
 	var err error
 
@@ -37,7 +42,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	}
 
 	buf := new(bytes.Buffer)
-	err = template.Execute(buf, nil)
+	td = AddDefaultData(td)
+	err = template.Execute(buf, td)
 	if err != nil {
 		log.Println(err)
 	}
