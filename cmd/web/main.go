@@ -25,9 +25,13 @@ func main() {
 		log.Fatal("Can not create the template cache")
 	}
 	app.TemplateCache = tc
+	app.UseCache = false // Development mode: set to false; pages won't be cached.
+	repo := handlers.NewRepository(&app)
+	handlers.NewHandlers(repo)
+
 	render.SetAppConfig(&app)
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/status", handlers.Status)
+	http.HandleFunc("/", handlers.Repo.Home)
+	http.HandleFunc("/status", handlers.Repo.Status)
 
 	fmt.Printf("Starting the web interface on http://localhost%s ...\n", PORT_NUMBER)
 	_ = http.ListenAndServe(PORT_NUMBER, nil)

@@ -16,8 +16,18 @@ func SetAppConfig(cfg *config.AppConfig) {
 }
 
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
-	// Use the template cache from the app config:
-	cache := appConfig.TemplateCache
+	var cache map[string]*template.Template
+	var err error
+
+	if appConfig.UseCache {
+		// Use the template cache from the app config:
+		cache = appConfig.TemplateCache
+	} else {
+		cache, err = CreateTemplateCache()
+		if err != nil {
+			log.Println(err)
+		}
+	}
 
 	// Look up the requested template in the cache
 	template, isOk := cache[tmpl]
@@ -27,7 +37,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	}
 
 	buf := new(bytes.Buffer)
-	err := template.Execute(buf, nil)
+	err = template.Execute(buf, nil)
 	if err != nil {
 		log.Println(err)
 	}
