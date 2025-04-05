@@ -7,19 +7,32 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"Invoicer/pkg/config"
 	"Invoicer/pkg/handlers"
 	"Invoicer/pkg/render"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/signintech/gopdf"
 )
 
 const BR_SIZE float64 = 13.5
 const PORT_NUMBER string = ":31337"
 
+var app config.AppConfig
+var sessionManager *scs.SessionManager
+
 func main() {
-	var app config.AppConfig
+	app.IsProduction = false
+
+	sessionManager = scs.New()
+	sessionManager.Lifetime = 24 * time.Hour
+	sessionManager.Cookie.Persist = true
+	sessionManager.Cookie.SameSite = http.SameSiteLaxMode
+	sessionManager.Cookie.Secure = app.IsProduction
+	app.SessionManager = sessionManager
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Can not create the template cache")
